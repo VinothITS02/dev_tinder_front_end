@@ -10,6 +10,7 @@ const CustomInput = ({
   keyboardType,
   leftIcon,
   rightIcon,
+  placeholder,
   ...rest
 }) => {
   return (
@@ -19,6 +20,7 @@ const CustomInput = ({
         {leftIcon && <View style={styles.icon}>{leftIcon}</View>}
         <TextInput
           style={styles.input}
+          placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={secureTextEntry}

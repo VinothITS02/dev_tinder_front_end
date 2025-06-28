@@ -16,8 +16,8 @@ import { POST_API } from '../utils/api';
 
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('vijay@gmail.com');
+  const [password, setPassword] = useState('vijay@123');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -48,6 +48,7 @@ const LoginScreen = ({ navigation }) => {
         </CustomText>
 
         <CustomInput
+          placeholder={"Email"}
           label="Email"
           value={email}
           onChangeText={setEmail}
@@ -57,6 +58,7 @@ const LoginScreen = ({ navigation }) => {
         />
 
         <CustomInput
+          placeholder={"Password"}
           label="Password"
           value={password}
           onChangeText={setPassword}
