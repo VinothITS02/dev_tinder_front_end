@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, StatusBar } from 'react-native';
+import { useSelector } from 'react-redux';
 
 const SplashScreen = ({ navigation }) => {
+  const isLoggedIn = useSelector((store) => store.user.isLoggedIn);
   useEffect(() => {
     setTimeout(() => {
-      const isLoggedIn = false; // Replace with your logic (token check, async storage, etc.)
       if (isLoggedIn) {
-        navigation.replace("App");
+        navigation.replace("Home");
       } else {
         navigation.replace("Auth");
       }

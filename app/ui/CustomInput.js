@@ -1,39 +1,32 @@
 import React from 'react';
-import { TextInput, StyleSheet, View, Platform } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 import CustomText from './CustomText';
 
 const CustomInput = ({
   label,
-  placeholder,
   value,
   onChangeText,
-  secureTextEntry = false,
-  keyboardType = 'default',
-  autoCapitalize = 'none',
-  editable = true,
-  multiline = false,
-  numberOfLines = 1,
-  style = {},
-  containerStyle = {},
-  ...props
+  secureTextEntry,
+  keyboardType,
+  leftIcon,
+  rightIcon,
+  ...rest
 }) => {
   return (
-    <View style={[styles.container, containerStyle]}>
+    <View style={styles.wrapper}>
       {label && <CustomText style={styles.label}>{label}</CustomText>}
-      <TextInput
-        style={[styles.input, multiline && styles.multiline, style]}
-        placeholder={placeholder || label}
-        value={value}
-        onChangeText={onChangeText}
-        secureTextEntry={secureTextEntry}
-        keyboardType={keyboardType}
-        autoCapitalize={autoCapitalize}
-        editable={editable}
-        multiline={multiline}
-        numberOfLines={numberOfLines}
-        placeholderTextColor="#888"
-        {...props}
-      />
+      <View style={styles.inputContainer}>
+        {leftIcon && <View style={styles.icon}>{leftIcon}</View>}
+        <TextInput
+          style={styles.input}
+          value={value}
+          onChangeText={onChangeText}
+          secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
+          {...rest}
+        />
+        {rightIcon && <View style={styles.icon}>{rightIcon}</View>}
+      </View>
     </View>
   );
 };
@@ -41,28 +34,28 @@ const CustomInput = ({
 export default CustomInput;
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     marginBottom: 16,
   },
   label: {
-    marginBottom: 6,
     fontSize: 14,
+    marginBottom: 6,
     color: '#333',
-    fontWeight: '500',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f1f1f1',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    height: 48,
   },
   input: {
-    height: 50,
-    borderColor: '#aaa',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 15,
+    flex: 1,
     fontSize: 16,
-    backgroundColor: '#f9f9f9',
-    color: '#000',
+    color: '#333',
   },
-  multiline: {
-    height: 100,
-    paddingVertical: 10,
-    textAlignVertical: 'top',
+  icon: {
+    marginHorizontal: 4,
   },
 });

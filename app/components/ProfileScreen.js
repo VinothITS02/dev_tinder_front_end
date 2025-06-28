@@ -1,8 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/slice/userSlice';
 
 export default function ProfileScreen({ navigation }) {
+  const userDetails = useSelector((store) => store.user);
+  const { user } = userDetails;
+  const dispatch = useDispatch()
+  console.log("userDetails", userDetails)
+
   const handleMenuPress = (label) => {
     Alert.alert(`${label} pressed`);
   };
@@ -18,7 +25,8 @@ export default function ProfileScreen({ navigation }) {
       if (!response.ok) {
         throw new Error(json.message || 'Logout failed');
       }
-      navigation.navigate("Login");
+      dispatch(logout());
+      navigation.navigate("Auth");
 
     } catch (err) {
       console.log('Login error:', err.message);
@@ -53,8 +61,8 @@ export default function ProfileScreen({ navigation }) {
           source={{ uri: 'https://i.pravatar.cc/150?img=12' }}
           style={styles.avatar}
         />
-        <Text style={styles.name}>John Doe</Text>
-        <Text style={styles.email}>johndoe@example.com</Text>
+        <Text style={styles.name}>{user?.firstName} {user?.lastName}</Text>
+        <Text style={styles.email}>{user?.emailId}</Text>
       </View>
 
       {/* Menu Options */}

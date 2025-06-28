@@ -11,12 +11,13 @@ import {
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 
-
+// Reusable UI components
+import CustomHeader from '../ui/CustomHeader';
 import CustomInput from '../ui/CustomInput';
 import CustomText from '../ui/CustomText';
 import DatePickerField from '../ui/DatePickerField';
-import CustomHeader from '../ui/CustomHeader';
 
+// Field configuration
 const fieldConfigs = [
   { key: 'firstname', label: 'First Name' },
   { key: 'lastname', label: 'Last Name' },
@@ -37,7 +38,7 @@ export default function SignupScreen({ navigation }) {
     location: '',
     skills: '',
   });
-
+  console.log("formData", formData)
   const handleChange = (key, value) => {
     setFormData(prev => ({ ...prev, [key]: value }));
   };
@@ -90,7 +91,7 @@ export default function SignupScreen({ navigation }) {
         { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
       );
     } catch (err) {
-      console.warn(err);
+      console.log(err);
     }
   };
 

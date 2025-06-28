@@ -23,7 +23,7 @@ const AuthNavigator = () => (
 // 2. App stack (after login)
 const AppNavigator = () => (
   <AppStack.Navigator screenOptions={{ headerShown: false }}>
-    <AppStack.Screen name="MainTabs" component={BottomTabs} />
+    <AppStack.Screen name="Home" component={BottomTabs} />
   </AppStack.Navigator>
 );
 
@@ -32,7 +32,7 @@ const AuthLoadingNavigator = () => (
   <AuthLoadingStack.Navigator screenOptions={{ headerShown: false }}>
     <AuthLoadingStack.Screen name="Splash" component={SplashScreen} />
     <AuthLoadingStack.Screen name="Auth" component={AuthNavigator} />
-    <AuthLoadingStack.Screen name="App" component={AppNavigator} />
+    <AuthLoadingStack.Screen name="Home" component={AppNavigator} />
   </AuthLoadingStack.Navigator>
 );
 

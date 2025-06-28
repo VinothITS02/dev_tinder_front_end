@@ -1,97 +1,97 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
   ActivityIndicator,
-  Alert,
+  Platform,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import CustomText from '../ui/CustomText';
+import CustomInput from '../ui/CustomInput';
+import { useDispatch } from 'react-redux';
+import { setUserDetails } from '../redux/slice/userSlice';
+import { POST_API } from '../utils/api';
+
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('vinothkumar@gmail.com');
-  const [password, setPassword] = useState('vinoth@12347777');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/login", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          emailId: email,
-          password: password,
-        }),
-      });
-      const json = await response.json();
-      setLoading(false);
-      if (!response.ok) {
-        Alert.alert(json?.message || 'Login failed');
-        return
+      const response = await POST_API('login', { emailId: email, password });
+      if (response) {
+        dispatch(setUserDetails(response))
+        navigation.navigate("Home");
       }
-      console.log('Login success:', json);
-      navigation.navigate("MainTabs");
+      setLoading(false);
     } catch (err) {
       setLoading(false);
-      console.log('Login error:', err.message);
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+    <View style={styles.safeArea}>
 
-      {/* Email Input */}
-      <View style={styles.inputContainer}>
-        <Ionicons name="mail-outline" size={20} color="#999" style={styles.icon} />
-        <TextInput
-          placeholder="Email"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={styles.container}
+      >
+        <CustomText size={22} weight="bold" align="center" style={{ marginBottom: 30 }}>
+          Welcome
+        </CustomText>
+
+        <CustomInput
+          label="Email"
           value={email}
           onChangeText={setEmail}
-          style={styles.input}
           keyboardType="email-address"
           autoCapitalize="none"
+          leftIcon={<Ionicons name="mail-outline" size={20} color="#888" />}
         />
-      </View>
 
-      {/* Password Input */}
-      <View style={styles.inputContainer}>
-        <Ionicons name="lock-closed-outline" size={20} color="#999" style={styles.icon} />
-        <TextInput
-          placeholder="Password"
+        <CustomInput
+          label="Password"
           value={password}
           onChangeText={setPassword}
-          style={styles.input}
-          secureTextEntry
+          secureTextEntry={!showPassword}
+          leftIcon={<Ionicons name="lock-closed-outline" size={20} color="#888" />}
+          rightIcon={
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <Ionicons
+                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                size={20}
+                color="#888"
+              />
+            </TouchableOpacity>
+          }
         />
-      </View>
 
-      {/* Forgot Password */}
-      <TouchableOpacity style={styles.forgotContainer}>
-        <Text style={styles.forgotText}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      {/* Login Button */}
-      <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
-        {loading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.buttonText}>Login</Text>
-        )}
-      </TouchableOpacity>
-
-      {/* Sign Up */}
-      <View style={styles.signupContainer}>
-        <Text style={styles.signupText}>Don't have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-          <Text style={styles.signupLink}>Sign Up</Text>
+        <TouchableOpacity style={styles.forgotContainer}>
+          <CustomText size={14} color="#444">Forgot Password?</CustomText>
         </TouchableOpacity>
-      </View>
+
+        <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <CustomText size={16} weight="bold" color="#fff">Login</CustomText>
+          )}
+        </TouchableOpacity>
+
+        <View style={styles.signupContainer}>
+          <CustomText>Don't have an account? </CustomText>
+          <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+            <CustomText color="#007bff" weight="bold">Sign Up</CustomText>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -99,70 +99,33 @@ const LoginScreen = ({ navigation }) => {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    paddingHorizontal: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#000',
-    marginBottom: 24,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f1f1f1',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    marginBottom: 16,
-    width: '100%',
-    height: 48,
-  },
-  icon: {
-    marginRight: 8,
-  },
-  input: {
+  container: {
     flex: 1,
-    fontSize: 16,
-    color: '#333',
+    padding: 20,
+    justifyContent: 'center',
   },
   forgotContainer: {
-    width: '100%',
     alignItems: 'flex-end',
-    marginBottom: 24,
-  },
-  forgotText: {
-    color: '#444',
-    fontSize: 14,
+    marginVertical: 10,
   },
   button: {
     backgroundColor: '#007bff',
-    width: '100%',
-    paddingVertical: 14,
+    height: 50,
     borderRadius: 8,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 24,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    marginVertical: 20,
+    shadowColor: '#007bff',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
   },
   signupContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-  },
-  signupText: {
-    fontSize: 14,
-    color: '#555',
-  },
-  signupLink: {
-    fontSize: 14,
-    color: '#007bff',
-    fontWeight: 'bold',
   },
 });
