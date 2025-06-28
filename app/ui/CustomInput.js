@@ -10,7 +10,7 @@ const CustomInput = ({
   keyboardType,
   leftIcon,
   rightIcon,
-  placeholder,
+  placeholder="",
   ...rest
 }) => {
   return (

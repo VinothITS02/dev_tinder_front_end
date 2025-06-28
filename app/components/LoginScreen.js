@@ -16,8 +16,8 @@ import { POST_API } from '../utils/api';
 
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('vijay@gmail.com');
-  const [password, setPassword] = useState('vijay@123');
+  const [email, setEmail] = useState('vinothkumar@gmail.com');
+  const [password, setPassword] = useState('vinoth@123');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
