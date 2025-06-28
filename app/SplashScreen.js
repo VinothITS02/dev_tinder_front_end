@@ -20,9 +20,10 @@ const SplashScreen = ({ navigation }) => {
       <StatusBar backgroundColor="#B80000" barStyle="light-content" />
 
       <Image
-        source={require('./assets/div_tinder_logo.png')} // 👈 replace with your image path
+        source={require('./assets/dev_logo.png')} // 👈 replace with your image path
         style={styles.logo}
         resizeMode="contain"
+        tintColor={"#eb2e4f"}
       />
 
       <Text style={styles.title}>
