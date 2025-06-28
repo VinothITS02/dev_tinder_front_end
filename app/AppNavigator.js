@@ -7,6 +7,7 @@ import SplashScreen from './SplashScreen';
 import LoginScreen from './components/LoginScreen';
 import SignupScreen from './components/SignupScreen';
 import BottomTabs from './BottomTabs';
+import WelcomeScreen from './components/WelcomeScreen';
 
 // Profile sub-page
 import ChangeTheme from './components/ChangeTheme';
@@ -17,7 +18,10 @@ const AppStack = createNativeStackNavigator();
 
 // 1. Auth stack for login/signup
 const AuthNavigator = () => (
-  <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+  <AuthStack.Navigator
+    initialRouteName='WelcomeScreen'
+    screenOptions={{ headerShown: false }}>
+    <AuthStack.Screen name="WelcomeScreen" component={WelcomeScreen} />
     <AuthStack.Screen name="Login" component={LoginScreen} />
     <AuthStack.Screen name="Signup" component={SignupScreen} />
   </AuthStack.Navigator>

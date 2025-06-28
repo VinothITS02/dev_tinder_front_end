@@ -4,7 +4,6 @@ import useTheme from '../theme/useTheme';
 
 const CustomText = ({ children, size = 'base', weight = 'regular', color, style }) => {
   const { theme } = useTheme();
-  console.log("theme", theme)
   return (
     <Text
       style={[

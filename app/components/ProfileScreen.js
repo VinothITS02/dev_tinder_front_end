@@ -8,7 +8,6 @@ export default function ProfileScreen({ navigation }) {
   const userDetails = useSelector((store) => store.user);
   const { user } = userDetails;
   const dispatch = useDispatch()
-  console.log("userDetails", userDetails)
 
   const handleMenuPress = (label) => {
     Alert.alert(`${label} pressed`);
@@ -29,7 +28,6 @@ export default function ProfileScreen({ navigation }) {
       navigation.navigate("Auth");
 
     } catch (err) {
-      console.log('Login error:', err.message);
       Alert.alert('Login Failed', err.message || 'Please check your credentials.');
     }
   };
@@ -41,7 +39,6 @@ export default function ProfileScreen({ navigation }) {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Logout cancelled"),
           style: "cancel"
         },
         {

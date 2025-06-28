@@ -38,7 +38,6 @@ export default function SignupScreen({ navigation }) {
     location: '',
     skills: '',
   });
-  console.log("formData", formData)
   const handleChange = (key, value) => {
     setFormData(prev => ({ ...prev, [key]: value }));
   };
@@ -62,9 +61,7 @@ export default function SignupScreen({ navigation }) {
       Alert.alert('Error', 'Password must be at least 6 characters.');
       return;
     }
-
     Alert.alert('Success', 'Account created successfully!');
-    console.log('Signup Data:', formData);
   };
 
   const requestLocationPermission = async () => {
@@ -85,7 +82,6 @@ export default function SignupScreen({ navigation }) {
           handleChange('location', `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`);
         },
         (error) => {
-          console.log(error.code, error.message);
           Alert.alert('Error', 'Failed to get current location.');
         },
         { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 const SplashScreen = ({ navigation }) => {
   const isLoggedIn = useSelector((store) => store.user.isLoggedIn);
+
   useEffect(() => {
     setTimeout(() => {
       if (isLoggedIn) {

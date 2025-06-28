@@ -17,7 +17,6 @@ export const POST_API = async (endURL, body) => {
         const json = await response.json();
         return json;
     } catch (err) {
-        console.log('Login error:', err.message);
         Alert.alert('Error', 'Something went wrong. Please try again.');
     }
 };
