@@ -1,30 +1,20 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text } from 'react-native';
+import useTheme from '../theme/useTheme';
 
-const CustomText = ({
-  children,
-  color = '#222',
-  size = 16,
-  weight = 'normal',
-  style = {},
-  numberOfLines,
-  align = 'left',
-  ...props
-}) => {
+const CustomText = ({ children, size = 'base', weight = 'regular', color, style }) => {
+  const { theme } = useTheme();
+  console.log("theme", theme)
   return (
     <Text
-      numberOfLines={numberOfLines}
       style={[
-        styles.text,
         {
-          color,
-          fontSize: size,
-          fontWeight: weight,
-          textAlign: align,
+          color: color || theme.colors.text,
+          fontSize: theme.typography.sizes[size],
+          fontFamily: theme.typography.fonts[weight],
         },
         style,
       ]}
-      {...props}
     >
       {children}
     </Text>
@@ -32,12 +22,3 @@ const CustomText = ({
 };
 
 export default CustomText;
-
-const styles = StyleSheet.create({
-  text: {
-    fontFamily: Platform.select({
-      ios: 'System',
-      android: 'sans-serif',
-    }),
-  },
-});

@@ -43,7 +43,7 @@ const LoginScreen = ({ navigation }) => {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.container}
       >
-        <CustomText size={22} weight="bold" align="center" style={{ marginBottom: 30 }}>
+        <CustomText size={'lg'} weight="bold" align="center" style={{ marginBottom: 30 }}>
           Welcome
         </CustomText>
 

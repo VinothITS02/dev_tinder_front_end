@@ -67,7 +67,7 @@ export default function ProfileScreen({ navigation }) {
 
       {/* Menu Options */}
       <View style={styles.menu}>
-        <MenuItem icon="settings-outline" label="Settings" onPress={() => handleMenuPress('Settings')} />
+        <MenuItem icon="settings-outline" label="Settings" onPress={() => navigation.navigate('ChangeTheme')} />
         <MenuItem icon="help-circle-outline" label="Help & Support" onPress={() => handleMenuPress('Help')} />
         <MenuItem icon="log-out-outline" label="Logout" onPress={() => handleLogout('Logout')} />
       </View>
