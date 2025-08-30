@@ -1,59 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
   Platform,
-} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+} from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import CustomText from "./CustomText";
 
-const DatePickerField = ({ label = 'Select Date', value, onChange }) => {
-  const [show, setShow] = useState(false);
+export default function DatePickerField({ label, value, onChange, error }) {
+  const [showPicker, setShowPicker] = useState(false);
 
-  const handleChange = (event, selectedDate) => {
-    setShow(false);
+  const handleDateChange = (event, selectedDate) => {
+    setShowPicker(Platform.OS === "ios"); // keep open on iOS
     if (selectedDate) {
-      const formattedDate = selectedDate.toISOString().split('T')[0];
-      onChange(formattedDate);
+      onChange(selectedDate);
     }
   };
 
   return (
-    <View>
+    <View style={{ marginBottom: 16 }}>
+      {label ? (
+        <CustomText size={14} weight="600" style={styles.label}>
+          {label}
+        </CustomText>
+      ) : null}
+
       <TouchableOpacity
-        style={styles.input}
-        onPress={() => setShow(true)}
+        style={[styles.input, error && styles.inputError]}
+        onPress={() => setShowPicker(true)}
       >
-        <Text style={{ color: value ? '#000' : '#aaa' }}>
-          {value ? `${label}: ${value}` : label}
-        </Text>
+        <CustomText color={value ? "#000" : "#999"}>
+          {value ? new Date(value).toDateString() : "Select Date"}
+        </CustomText>
       </TouchableOpacity>
 
-      {show && (
+      {showPicker && (
         <DateTimePicker
+          value={value ? new Date(value) : new Date()}
           mode="date"
-          value={value ? new Date(value) : new Date(2000, 0, 1)}
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          onChange={handleChange}
-          maximumDate={new Date()}
+          display="default"
+          onChange={handleDateChange}
         />
       )}
+
+      {error ? (
+        <CustomText size={12} color="red" style={styles.errorText}>
+          {error}
+        </CustomText>
+      ) : null}
     </View>
   );
-};
-
-export default DatePickerField;
+}
 
 const styles = StyleSheet.create({
+  label: {
+    marginBottom: 6,
+    color: "#333",
+  },
   input: {
-    height: 50,
-    borderColor: '#aaa',
     borderWidth: 1,
+    borderColor: "#ccc",
     borderRadius: 8,
-    paddingHorizontal: 15,
-    justifyContent: 'center',
-    marginBottom: 16,
-    backgroundColor: '#f9f9f9',
+    paddingHorizontal: 12,
+    paddingVertical: 14,
+    backgroundColor: "#fff",
+  },
+  inputError: {
+    borderColor: "red",
+  },
+  errorText: {
+    marginTop: 4,
   },
 });

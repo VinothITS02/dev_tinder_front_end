@@ -13,6 +13,7 @@ import CustomInput from '../ui/CustomInput';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../redux/slice/userSlice';
 import { POST_API } from '../utils/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -27,11 +28,13 @@ const LoginScreen = ({ navigation }) => {
     try {
       const response = await POST_API('login', { emailId: email, password });
       if (response) {
-        dispatch(setUserDetails(response))
+        dispatch(setUserDetails(response));
+        await AsyncStorage.setItem("isLoggedIn", "true");
         navigation.navigate("Home");
       }
       setLoading(false);
     } catch (err) {
+      console.log(err)
       setLoading(false);
     }
   };

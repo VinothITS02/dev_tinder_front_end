@@ -1,63 +1,60 @@
-import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
-import CustomText from './CustomText';
+import React from "react";
+import { View, TextInput, StyleSheet } from "react-native";
+import CustomText from "./CustomText";
 
-const CustomInput = ({
+export default function CustomInput({
   label,
   value,
   onChangeText,
-  secureTextEntry,
-  keyboardType,
-  leftIcon,
-  rightIcon,
-  placeholder="",
-  ...rest
-}) => {
+  keyboardType = "default",
+  secureTextEntry = false,
+  error,
+}) {
   return (
-    <View style={styles.wrapper}>
-      {label && <CustomText style={styles.label}>{label}</CustomText>}
-      <View style={styles.inputContainer}>
-        {leftIcon && <View style={styles.icon}>{leftIcon}</View>}
-        <TextInput
-          style={styles.input}
-          placeholder={placeholder}
-          value={value}
-          onChangeText={onChangeText}
-          secureTextEntry={secureTextEntry}
-          keyboardType={keyboardType}
-          {...rest}
-        />
-        {rightIcon && <View style={styles.icon}>{rightIcon}</View>}
-      </View>
+    <View style={{ marginBottom: 16 }}>
+      {label ? (
+        <CustomText size={14} weight="600" style={styles.label}>
+          {label}
+        </CustomText>
+      ) : null}
+
+      <TextInput
+        style={[styles.input, error && styles.inputError]}
+        value={value}
+        onChangeText={onChangeText}
+        keyboardType={keyboardType}
+        secureTextEntry={secureTextEntry}
+        placeholder={label}
+        placeholderTextColor="#999"
+      />
+
+      {error ? (
+        <CustomText size={12} color="red" style={styles.errorText}>
+          {error}
+        </CustomText>
+      ) : null}
     </View>
   );
-};
-
-export default CustomInput;
+}
 
 const styles = StyleSheet.create({
-  wrapper: {
-    marginBottom: 16,
-  },
   label: {
-    fontSize: 14,
     marginBottom: 6,
-    color: '#333',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f1f1f1',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    height: 48,
+    color: "#333",
   },
   input: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333',
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 14,
+    backgroundColor: "#fff",
   },
-  icon: {
-    marginHorizontal: 4,
+  inputError: {
+    borderColor: "red",
+  },
+  errorText: {
+    marginTop: 4,
   },
 });

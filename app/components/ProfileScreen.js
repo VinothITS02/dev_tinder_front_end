@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-na
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/slice/userSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function ProfileScreen({ navigation }) {
   const userDetails = useSelector((store) => store.user);
@@ -25,6 +27,7 @@ export default function ProfileScreen({ navigation }) {
         throw new Error(json.message || 'Logout failed');
       }
       dispatch(logout());
+      await AsyncStorage.setItem("isLoggedIn", "false");
       navigation.navigate("Auth");
 
     } catch (err) {

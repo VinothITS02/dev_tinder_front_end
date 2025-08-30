@@ -10,16 +10,21 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WelcomeScreen = ({ navigation }) => {
-    const isLoggedIn = useSelector((store) => store.user?.isLoggedIn);
-    console.log("isLoggedIn///////", isLoggedIn)
+
     useEffect(() => {
-        if (isLoggedIn) {
+        onInit()
+    }, []);
+
+    const onInit = async () => {
+        const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+        if (isLoggedIn == "true") {
             console.log("insdie")
-            navigation.navigate("Login");
+            navigation.navigate("Home");
         }
-    }, [])
+    }
     return (
         <LinearGradient
             colors={['#fd267d', '#ff6036']}
